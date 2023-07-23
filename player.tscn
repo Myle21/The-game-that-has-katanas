@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://ucvx338o303k"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_kinvm"]
+[ext_resource type="PackedScene" uid="uid://bun5cr1o2bp4y" path="res://assets/player/low-poly_samurai.glb" id="2_hxaqr"]
+[ext_resource type="PackedScene" path="res://assets/player/samurai_katana_low_poly_-_game_ready.glb" id="3_hayur"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y5mno"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_x7yf2"]
+height = 0.25
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_kinvm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_y5mno")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+target_position = Vector3(0, 0, -0.2)
+collision_mask = 3
+
+[node name="attack_range" type="Node3D" parent="Head/Camera3D"]
+
+[node name="Area3D" type="Area3D" parent="Head/Camera3D/attack_range"]
+collision_layer = 8
+collision_mask = 4
+
+[node name="attack_range" type="CollisionShape3D" parent="Head/Camera3D/attack_range/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.6)
+shape = SubResource("CylinderShape3D_x7yf2")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="dash_pos" type="RayCast3D" parent="."]
+target_position = Vector3(0, -1, -0.4)
+
+[node name="low-poly_samurai" parent="." instance=ExtResource("2_hxaqr")]
+transform = Transform3D(-0.009, 0, -1.35896e-09, 0, 0.009, 0, 1.35896e-09, 0, -0.009, 0, 0, 0)
+
+[node name="samurai_katana_low_poly_-_game_ready" parent="low-poly_samurai" instance=ExtResource("3_hayur")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -75.3765, 128.509, 80)

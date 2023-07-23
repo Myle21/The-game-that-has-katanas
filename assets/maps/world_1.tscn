@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://lyeghduvj5c0"]
+
+[ext_resource type="Shader" path="res://sky.gdshader" id="1_p68ol"]
+[ext_resource type="PackedScene" uid="uid://ucvx338o303k" path="res://player.tscn" id="2_a1gb3"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_54iye"]
+size = Vector2(100, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_32g8a"]
+shader = ExtResource("1_p68ol")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.2
+shader_parameter/sun_blur = 10.0
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/stars_speed = 1.0
+shader_parameter/overwritten_time = 0.0
+
+[sub_resource type="Sky" id="Sky_usjgj"]
+sky_material = SubResource("ShaderMaterial_32g8a")
+
+[sub_resource type="Environment" id="Environment_ooyi4"]
+background_mode = 2
+sky = SubResource("Sky_usjgj")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+tonemap_mode = 3
+tonemap_exposure = 0.8
+tonemap_white = 1.2
+glow_enabled = true
+adjustment_enabled = true
+
+[node name="world1" type="Node3D"]
+
+[node name="Landscape" type="Node3D" parent="."]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Landscape"]
+transform = Transform3D(5.67617, 0, 0, 0, 1, 0, 0, 0, 5.35752, 0, 0, 0)
+use_collision = true
+mesh = SubResource("PlaneMesh_54iye")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.5, 7)
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -14)
+use_collision = true
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 7)
+use_collision = true
+
+[node name="light" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="light"]
+transform = Transform3D(-0.276756, -0.612159, -0.740721, -0.820611, -0.250525, 0.513648, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="light"]
+environment = SubResource("Environment_ooyi4")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_a1gb3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.295498, 0, -0.220704)
