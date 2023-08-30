@@ -8,5 +8,5 @@ This project uses godot engine v4.1
 - [ ] add parry
 - [ ] add actual 3d models and animations
 - [ ] add maps
-### Maybe leater:
+### Maybe later:
 - [ ] add ability to load custom maps
